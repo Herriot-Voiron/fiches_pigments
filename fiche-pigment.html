@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ma fiche pigment — La route des pigments</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#141210;color:#e8e4da;font-size:17px;line-height:1.5}
+body{padding:0 0 env(safe-area-inset-bottom)}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px 40px}
+h1{font-size:21px;font-weight:600;margin:0}
+h1 small{display:block;font-size:11px;font-weight:400;color:#8a8278;letter-spacing:.8px;text-transform:uppercase;margin-top:3px}
+.top{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#1c1916;border-bottom:1px solid #332e28;position:sticky;top:0;z-index:5}
+.top .spacer{flex:1}
+button{font:inherit;color:#e8e4da;background:#2b2621;border:1px solid #433c33;border-radius:11px;padding:13px 18px;cursor:pointer;min-height:52px;font-size:16px}
+button:active{background:#413a31}
+button.on{background:#8a6a14;border-color:#b8902a;color:#fff;font-weight:600}
+button.lnk{background:transparent;border:0;color:#c9a227;padding:10px 4px;min-height:44px;font-size:15px}
+.scr{display:none}.scr.show{display:block}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.tile{display:flex;align-items:center;gap:11px;padding:14px 12px;background:#252019;border:1px solid #39322a;border-radius:13px;min-height:76px;text-align:left;cursor:pointer}
+.tile .sw{flex:0 0 32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.3)}
+.tile .nm{font-size:15px;line-height:1.2}
+.tile .no{font-size:11px;color:#8a8278}
+.lead{color:#b4ab9d;font-size:16px;margin:14px 0 0}
+
+.hero{display:flex;gap:16px;align-items:center;margin:18px 0 6px}
+.hero .sw{width:72px;height:72px;border-radius:13px;border:1px solid rgba(255,255,255,.3);flex:0 0 72px}
+.hero h2{margin:0;font-size:26px;font-weight:600;line-height:1.15}
+.hero .frm{margin:4px 0 0;font-size:14px;color:#9c9488;font-family:ui-monospace,Menlo,Consolas,monospace}
+.quest{background:#1e1a15;border-left:4px solid #8a6a14;border-radius:0 11px 11px 0;padding:13px 16px;margin:16px 0 22px}
+.quest h3{margin:0 0 7px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8278;font-weight:600}
+.quest ul{margin:0;padding-left:19px;color:#ddd5c4;font-size:16px}
+.quest li{margin-bottom:5px}
+
+.fl{margin-bottom:20px}
+.fl label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.9px;color:#8a8278;margin-bottom:7px;font-weight:600}
+.fl input,.fl textarea{width:100%;font:inherit;font-size:17px;color:#ede8dd;background:#171410;border:1px solid #3c352c;border-radius:11px;padding:14px;-webkit-appearance:none}
+.fl textarea{resize:vertical;min-height:130px;line-height:1.5}
+.fl input:focus,.fl textarea:focus{outline:0;border-color:#b8902a}
+.hintxt{font-size:13.5px;color:#7d756a;margin-top:6px;line-height:1.45}
+.coins{display:flex;gap:9px;justify-content:space-between}
+.coin{flex:1;height:60px;border-radius:13px;border:2px solid #4a4138;background:transparent;cursor:pointer;padding:0;font-size:19px;color:#6b6358;min-height:60px}
+.coin.fill{background:#b8902a;border-color:#d9ad3a;color:#241c08;font-weight:700}
+.scale{display:flex;justify-content:space-between;font-size:12.5px;color:#7d756a;margin-top:7px}
+
+.chk{background:#1a1611;border:1px solid #332e28;border-radius:12px;padding:14px 16px;margin:4px 0 20px;font-size:15px}
+.chk div{display:flex;gap:9px;align-items:flex-start;margin:6px 0;color:#8a8278}
+.chk div.ok{color:#7ec49a}
+.chk b{flex:0 0 18px;text-align:center}
+.act{display:flex;flex-direction:column;gap:11px;margin-top:8px}
+.act button{width:100%}
+.done{text-align:center;padding:26px 0 10px}
+.done .big{font-size:52px;line-height:1}
+.done h2{font-size:23px;margin:14px 0 6px}
+.done p{color:#b4ab9d;margin:0 0 22px}
+.step{display:flex;gap:13px;align-items:flex-start;text-align:left;background:#1e1a15;border-radius:12px;padding:14px 16px;margin-bottom:11px}
+.step .n{flex:0 0 28px;height:28px;border-radius:50%;background:#8a6a14;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
+.step .tx{font-size:15.5px;color:#ddd5c4}
+.saved{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#2f5438;color:#dff0e4;padding:11px 20px;border-radius:24px;font-size:14.5px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:9}
+.saved.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>Ma fiche pigment<small>La route des pigments · 1662</small></h1>
+  <div class="spacer"></div>
+  <button class="lnk" id="back" style="display:none">← Changer</button>
+</div>
+
+<div class="wrap">
+
+<section class="scr show" id="s1">
+  <p class="lead">Touchez le pigment que votre groupe a tiré au sort.</p>
+  <div class="grid" id="tiles"></div>
+</section>
+
+<section class="scr" id="s2">
+  <div class="hero"><div class="sw" id="hSw"></div>
+    <div><h2 id="hNm"></h2><p class="frm" id="hFrm"></p></div></div>
+  <div class="quest"><h3>Ce qu'il faut trouver</h3><ul id="hQ"></ul></div>
+
+  <div class="fl"><label>Votre groupe</label>
+    <input id="fGrp" placeholder="Prénoms" autocomplete="off"></div>
+
+  <div class="fl"><label>Lieu d'origine</label>
+    <input id="fOri" placeholder="Pays, région, ville…" autocomplete="off">
+    <div class="hintxt">Soyez précis : « Afghanistan » ne suffit pas, cherchez la vallée.</div></div>
+
+  <div class="fl"><label>Ce que nous avons appris</label>
+    <textarea id="fNot" placeholder="Comment l'obtient-on ? Qui le transporte, et par où ? Qu'est-ce qui fait son prix ?"></textarea></div>
+
+  <div class="fl"><label>Source utilisée</label>
+    <input id="fSrc" placeholder="Nom du site, ou l'adresse" autocomplete="off">
+    <div class="hintxt">Obligatoire. « Je ne sais plus » est une réponse honnête ; recopier sans savoir d'où, non.</div></div>
+
+  <div class="fl"><label>Notre estimation du prix</label>
+    <div class="coins" id="fCoins"></div>
+    <div class="scale"><span>1 · pigment de misère</span><span>5 · plus cher que l'or</span></div></div>
+
+  <div class="chk" id="chk"></div>
+  <div class="act">
+    <button class="on" id="bPdf">Créer notre fiche PDF</button>
+    <button id="bUp">Déposer la fiche sur le nuage</button>
+  </div>
+</section>
+
+<section class="scr" id="s3">
+  <div class="done"><div class="big">✓</div>
+    <h2>Fiche enregistrée</h2>
+    <p id="dNm"></p></div>
+  <div class="step"><span class="n">1</span><span class="tx">Votre PDF est dans les <b>téléchargements</b> du téléphone.</span></div>
+  <div class="step"><span class="n">2</span><span class="tx">Touchez le bouton ci-dessous, puis <b>envoyez le fichier</b> sur le nuage de la classe.</span></div>
+  <div class="step"><span class="n">3</span><span class="tx">Venez au tableau <b>poser votre pastille</b> sur la carte et annoncer votre estimation.</span></div>
+  <div class="act">
+    <button class="on" id="bUp2">Déposer la fiche sur le nuage</button>
+    <button id="bAgain">Revoir ou corriger notre fiche</button>
+  </div>
+</section>
+
+</div>
+<div class="saved" id="toast">Enregistré</div>
+
+<script>
+const UPLOAD="https://nuage06.apps.education.fr/index.php/s/5GPKJ4ZgcrRdisF";
+const PIG=[
+ {id:1,n:"Outremer",f:"Lazurite — Na<sub>8–10</sub>Al<sub>6</sub>Si<sub>6</sub>O<sub>24</sub>S<sub>2–4</sub>",fp:"Lazurite - Na8-10 Al6 Si6 O24 S2-4",c:"#26418F",
+  q:["De quelle pierre précieuse vient-il, et dans quel pays la trouve-t-on ?","Combien de pigment obtient-on à partir de 100 g de pierre ?","Pourquoi son nom veut-il dire « au-delà des mers » ?"]},
+ {id:2,n:"Indigo",f:"Indigotine — C<sub>16</sub>H<sub>10</sub>N<sub>2</sub>O<sub>2</sub>",fp:"Indigotine - C16 H10 N2 O2",c:"#2B3A5C",
+  q:["De quelle plante vient-il, et sur quels territoires la cultive-t-on ?","Quelle compagnie hollandaise en fait le commerce ?","Quelle culture française a-t-il ruinée en arrivant en Europe ?"]},
+ {id:3,n:"Cochenille",f:"Acide carminique — C<sub>22</sub>H<sub>20</sub>O<sub>13</sub>",fp:"Acide carminique - C22 H20 O13",c:"#9B1B30",
+  q:["De quel animal vient-il, et sur quelle plante vit-il ?","Combien en faut-il pour obtenir un kilo de matière ?","Quel pays en détenait le monopole, et comment les Hollandais s'en procuraient-ils ?"]},
+ {id:4,n:"Bois de brésil",f:"Brésiline — C<sub>16</sub>H<sub>14</sub>O<sub>5</sub>",fp:"Bresiline - C16 H14 O5",c:"#B5462B",
+  q:["Le pays a-t-il donné son nom au bois, ou l'inverse ?","Comment extrait-on la couleur du bois ?","Combien de temps cette couleur tient-elle à la lumière ?"]},
+ {id:5,n:"Gomme-gutte",f:"Résine de Garcinia — acide gambogique",fp:"Resine de Garcinia - acide gambogique",c:"#E0A010",
+  q:["De quel arbre et de quelle région du monde vient cette résine ?","Sous quelle forme arrive-t-elle en Europe ?","Pourquoi les peintres devaient-ils éviter de porter le pinceau à la bouche ?"]},
+ {id:6,n:"Smalt",f:"Verre de cobalt — CoO·nSiO<sub>2</sub>",fp:"Verre de cobalt - CoO.nSiO2",c:"#6B7FA8",
+  q:["De quoi est-il fait, et dans quelle région d'Europe le fabrique-t-on ?","Pourquoi l'appelle-t-on « le bleu du pauvre » ?","Que devient sa couleur au bout de trois siècles ?"]},
+ {id:7,n:"Vermillon",f:"Sulfure de mercure — HgS",fp:"Sulfure de mercure - HgS",c:"#E0301E",
+  q:["De quel minerai part-on, et d'où vient ce minerai ?","Dans quelle ville le fabrique-t-on au XVIIe siècle ?","Combien de temps dure la fabrication, et pourquoi est-elle dangereuse ?"]},
+ {id:8,n:"Jaune de plomb-étain",f:"Pb<sub>2</sub>SnO<sub>4</sub>",fp:"Pb2 Sn O4",c:"#E8C547",
+  q:["Où le fabrique-t-on : dans une mine, une usine, ou l'atelier du peintre ?","À quelle température faut-il le cuire ?","Sa recette a été perdue : en quelle année l'a-t-on retrouvée, et comment ?"]},
+ {id:9,n:"Blanc de plomb",f:"Céruse — 2PbCO<sub>3</sub>·Pb(OH)<sub>2</sub>",fp:"Ceruse - 2PbCO3.Pb(OH)2",c:"#F2F0E6",
+  q:["En quoi consiste le procédé dit « hollandais » ?","La Hollande l'importe-t-elle, ou l'exporte-t-elle ?","Quelle maladie professionnelle frappait ceux qui le fabriquaient ?"]},
+ {id:10,n:"Garance",f:"Alizarine — C<sub>14</sub>H<sub>8</sub>O<sub>4</sub>",fp:"Alizarine - C14 H8 O4",c:"#B04A5A",
+  q:["Quelle partie de la plante utilise-t-on ?","Combien d'années faut-il attendre avant la première récolte ?","Quelle province des Pays-Bas en cultivait le plus ?"]},
+ {id:11,n:"Noir d'ivoire",f:"Carbone + Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2</sub>",fp:"Carbone + Ca3(PO4)2",c:"#1A1613",
+  q:["De quelle matière part-on, et comment la transforme-t-on en pigment ?","De quelle région du monde cette matière arrive-t-elle ?","Par quoi le remplace-t-on quand on n'en a pas, et qu'est-ce que cela change ?"]},
+ {id:12,n:"Terre d'ombre",f:"Fe<sub>2</sub>O<sub>3</sub> + MnO<sub>2</sub> + argile",fp:"Fe2O3 + MnO2 + argile",c:"#6B5540",
+  q:["Son nom vient-il du mot « ombre », ou d'une région ? Laquelle ?","Quels métaux lui donnent sa couleur ?","Était-ce un pigment cher ou bon marché, et pourquoi ?"]}];
+
+const K='fiche-pigment-v1';
+const $=i=>document.getElementById(i);
+let D={}, id=null;
+
+function load(){try{D=JSON.parse(localStorage.getItem(K))||{}}catch(e){D={}}}
+function save(){try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}
+  clearTimeout(save.t); $('toast').classList.add('show');
+  save.t=setTimeout(()=>$('toast').classList.remove('show'),1100)}
+function dark(h){const r=parseInt(h.substr(1,2),16),g=parseInt(h.substr(3,2),16),b=parseInt(h.substr(5,2),16);
+  return (r*299+g*587+b*114)/1000>140?'#141210':'#fff'}
+const P=()=>PIG.find(p=>p.id===id);
+function show(n){['s1','s2','s3'].forEach(s=>$(s).classList.toggle('show',s==='s'+n));
+  $('back').style.display=n===1?'none':'';scrollTo(0,0)}
+
+$('tiles').innerHTML=PIG.map(p=>`<button class="tile" data-id="${p.id}">
+  <span class="sw" style="background:${p.c}"></span>
+  <span><span class="no">${String(p.id).padStart(2,'0')}</span><br><span class="nm">${p.n}</span></span></button>`).join('');
+$('tiles').querySelectorAll('.tile').forEach(b=>b.onclick=()=>open_(+b.dataset.id));
+$('back').onclick=()=>show(1);
+$('bAgain').onclick=()=>show(2);
+
+function open_(i){
+  id=i; D.id=i; save();
+  const p=P();
+  $('hSw').style.background=p.c; $('hNm').textContent=p.n; $('hFrm').innerHTML=p.f;
+  $('hQ').innerHTML=p.q.map(q=>`<li>${q}</li>`).join('');
+  $('fGrp').value=D.grp||''; $('fOri').value=D.ori||''; $('fNot').value=D.not||''; $('fSrc').value=D.src||'';
+  coins(); check(); show(2);
+}
+function coins(){
+  $('fCoins').innerHTML=[1,2,3,4,5].map(i=>`<button class="coin${(D.est||0)>=i?' fill':''}" data-v="${i}">${i}</button>`).join('');
+  $('fCoins').querySelectorAll('.coin').forEach(b=>b.onclick=()=>{
+    D.est=+b.dataset.v; save();
+    $('fCoins').querySelectorAll('.coin').forEach(c=>c.classList.toggle('fill',+c.dataset.v<=D.est));
+    check();
+  });
+}
+const F={fGrp:'grp',fOri:'ori',fNot:'not',fSrc:'src'};
+Object.keys(F).forEach(k=>$(k).addEventListener('input',()=>{D[F[k]]=$(k).value;save();check()}));
+
+function check(){
+  const r=[['grp','Les prénoms du groupe'],['ori',"Le lieu d'origine"],['not',"Ce que vous avez appris"],['src','La source utilisée']];
+  let h=r.map(([k,t])=>{const ok=(D[k]||'').trim().length>(k==='not'?25:1);
+    return `<div class="${ok?'ok':''}"><b>${ok?'✓':'○'}</b><span>${t}</span></div>`}).join('');
+  h+=`<div class="${D.est?'ok':''}"><b>${D.est?'✓':'○'}</b><span>Votre estimation du prix</span></div>`;
+  $('chk').innerHTML=h;
+}
+
+/* ---------- générateur PDF, sans bibliothèque ---------- */
+const WIN={'’':0x92,'‘':0x91,'“':0x93,'”':0x94,'—':0x97,'–':0x96,'…':0x85,'•':0x95,'€':0x80,'œ':0x9C,'Œ':0x8C};
+function enc(s){let o='';for(const ch of s){const w=WIN[ch];const c=w!==undefined?w:ch.charCodeAt(0);
+  o+=String.fromCharCode(c<256?c:63)}return o}
+function esc(s){return enc(s).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)')}
+const cvs=document.createElement('canvas').getContext('2d');
+function wid(t,sz,bold){cvs.font=(bold?'bold ':'')+sz+'px Helvetica, Arial, sans-serif';return cvs.measureText(t).width}
+function wrap(t,sz,bold,max){
+  const out=[];
+  for(const para of String(t).split(/\n+/)){
+    let line='';
+    for(const w of para.split(/\s+/)){
+      if(!w)continue;
+      const tryl=line?line+' '+w:w;
+      if(wid(tryl,sz,bold)>max&&line){out.push(line);line=w}else line=tryl;
+    }
+    out.push(line);
+  }
+  return out;
+}
+
+function buildPDF(){
+  const p=P(), W=595.28, H=841.89, M=56;
+  const CW=W-2*M;
+  let y=H-M, c=[];
+  const txt=(t,sz,bold,col,x)=>{c.push(`BT /${bold?'F2':'F1'} ${sz} Tf ${col} rg ${x===undefined?M:x} ${y.toFixed(1)} Td (${esc(t)}) Tj ET`)};
+  const blk=(t,sz,bold,col,lead,max)=>{for(const l of wrap(t,sz,bold,max||CW)){txt(l,sz,bold,col);y-=lead||sz*1.42}};
+  const rule=()=>{c.push(`0.78 0.76 0.72 RG 0.6 w ${M} ${y.toFixed(1)} m ${W-M} ${y.toFixed(1)} l S`)};
+  const circ=(x,cy,r,f)=>{const k=.5523*r;
+    c.push(`${x+r} ${cy} m ${x+r} ${cy+k} ${x+k} ${cy+r} ${x} ${cy+r} c ${x-k} ${cy+r} ${x-r} ${cy+k} ${x-r} ${cy} c ${x-r} ${cy-k} ${x-k} ${cy-r} ${x} ${cy-r} c ${x+k} ${cy-r} ${x+r} ${cy-k} ${x+r} ${cy} c ${f}`)};
+  const head=t=>{y-=14;txt(t.toUpperCase(),8.5,true,'0.42 0.41 0.38');y-=15};
+
+  txt('LA ROUTE DES PIGMENTS  —  LE SIÈCLE D’OR HOLLANDAIS',8.5,true,'0.42 0.41 0.38');
+  const dt=new Date().toLocaleDateString('fr-FR');
+  c.push(`BT /F1 8.5 Tf 0.42 0.41 0.38 rg ${(W-M-wid(dt,8.5,false)).toFixed(1)} ${y.toFixed(1)} Td (${esc(dt)}) Tj ET`);
+  y-=26; rule(); y-=34;
+
+  const hx=parseInt(p.c.substr(1,2),16)/255, hy=parseInt(p.c.substr(3,2),16)/255, hz=parseInt(p.c.substr(5,2),16)/255;
+  c.push(`${hx.toFixed(3)} ${hy.toFixed(3)} ${hz.toFixed(3)} rg ${W-M-62} ${(y-16).toFixed(1)} 62 46 re f`);
+  c.push(`0.78 0.76 0.72 RG 0.5 w ${W-M-62} ${(y-16).toFixed(1)} 62 46 re S`);
+  txt(p.n,25,true,'0.1 0.1 0.1'); y-=19;
+  txt(p.fp,9.5,false,'0.48 0.46 0.43'); y-=14;
+  txt('Pigment n° '+String(p.id).padStart(2,'0')+' sur 12',9.5,false,'0.48 0.46 0.43');
+  y-=30; rule(); y-=4;
+
+  head('Groupe'); blk(D.grp||'—',13,false,'0.1 0.1 0.1');
+  head("Lieu d'origine"); blk(D.ori||'—',13,false,'0.1 0.1 0.1');
+  head('Ce que nous avons appris'); blk(D.not||'—',12,false,'0.14 0.14 0.14',17.5);
+  head('Source utilisée'); blk(D.src||'—',12,false,'0.14 0.14 0.14');
+
+  head('Notre estimation du prix');
+  y+=3;
+  for(let i=0;i<5;i++){const cx=M+9+i*26, cy=y+2;
+    if(i<(D.est||0)){c.push('0.72 0.56 0.16 rg');circ(cx,cy,8,'f')}
+    else{c.push('0.78 0.76 0.72 RG 0.8 w');circ(cx,cy,8,'S')}}
+  c.push(`BT /F1 11 Tf 0.42 0.41 0.38 rg ${M+146} ${(y-2).toFixed(1)} Td (${esc((D.est||0)+' sur 5')}) Tj ET`);
+  y-=32;
+
+  y=Math.max(y,M+46); rule(); y-=15;
+  blk("1 = pigment de misère  ·  5 = plus cher que l’or au poids. Le prix réel sera révélé au tableau.",8.5,false,'0.5 0.49 0.46');
+
+  const stream=c.join('\n');
+  const objs=[
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+    `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>`,
+    `<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`,
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'];
+  let pdf='%PDF-1.4\n', off=[];
+  objs.forEach((o,i)=>{off.push(pdf.length);pdf+=`${i+1} 0 obj\n${o}\nendobj\n`});
+  const xref=pdf.length;
+  pdf+=`xref\n0 ${objs.length+1}\n0000000000 65535 f \n`;
+  off.forEach(o=>{pdf+=String(o).padStart(10,'0')+' 00000 n \n'});
+  pdf+=`trailer\n<< /Size ${objs.length+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+  const by=new Uint8Array(pdf.length);
+  for(let i=0;i<pdf.length;i++)by[i]=pdf.charCodeAt(i)&0xFF;
+  return new Blob([by],{type:'application/pdf'});
+}
+const slug=s=>(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()
+  .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,28)||'groupe';
+
+$('bPdf').onclick=()=>{
+  const p=P();
+  const name=`${String(p.id).padStart(2,'0')}-${slug(p.n)}-${slug(D.grp)}.pdf`;
+  const u=URL.createObjectURL(buildPDF()), a=document.createElement('a');
+  a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),4000);
+  $('dNm').textContent=name;
+  setTimeout(()=>show(3),400);
+};
+$('bUp').onclick=$('bUp2').onclick=()=>open(UPLOAD,'_blank','noopener');
+
+load();
+if(D.id){open_(D.id)}else show(1);
+</script>
+</body>
+</html>
